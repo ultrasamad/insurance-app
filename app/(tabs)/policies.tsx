@@ -18,6 +18,8 @@ export default function PoliciesScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [activeFilter, setActiveFilter] = useState("all");
 
+  type MaterialIconsName = keyof typeof MaterialCommunityIcons.glyphMap;
+
   type Policy = {
     id: string;
     type: string;
@@ -27,7 +29,7 @@ export default function PoliciesScreen() {
     vehicle: string;
     plate: string;
     coverage: string;
-    icon: string;
+    icon: MaterialIconsName;
     color: string;
   };
 

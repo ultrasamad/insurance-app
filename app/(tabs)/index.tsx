@@ -16,7 +16,21 @@ const { width } = Dimensions.get("window");
 export default function HomeScreen() {
   const [activePolicy, setActivePolicy] = useState("Comprehensive");
 
-  const policies = [
+  type MaterialIconsName = keyof typeof MaterialCommunityIcons.glyphMap;
+
+  type Policy = {
+    type: string;
+    holder: string;
+    car: string;
+    plate: string;
+    policyType: string;
+    expiry: string;
+    premium: string;
+    status: string;
+    icon: MaterialIconsName;
+  };
+
+  const policies: Policy[] = [
     {
       type: "Comprehensive",
       holder: "Samad Ibrahim",
@@ -197,16 +211,12 @@ export default function HomeScreen() {
           <Text style={styles.sectionTitle}>Quick Actions</Text>
           <View style={styles.quickActions}>
             <View style={styles.quickActionsRow}>
-              <ActionBtn icon="car-outline" label="My Vehicles" />
+              <ActionBtn icon="add-circle-outline" label="New Claim" />
               <ActionBtn icon="document-text-outline" label="Documents" />
             </View>
             <View style={styles.quickActionsRow}>
               <ActionBtn icon="card-outline" label="Payments" />
               <ActionBtn icon="chatbubble-outline" label="Support" />
-            </View>
-            <View style={styles.quickActionsRow}>
-              <ActionBtn icon="add-circle-outline" label="New Claim" />
-              <ActionBtn icon="settings-outline" label="Settings" />
             </View>
           </View>
         </View>
@@ -259,7 +269,9 @@ export default function HomeScreen() {
   );
 }
 
-const ActionBtn = ({ icon, label }) => (
+type IoniconsName = keyof typeof Ionicons.glyphMap;
+
+const ActionBtn = ({ icon, label }: { icon: IoniconsName; label: string }) => (
   <TouchableOpacity style={styles.actionBtn}>
     <View style={styles.actionIconContainer}>
       <Ionicons name={icon} size={22} color="#4A76FF" />

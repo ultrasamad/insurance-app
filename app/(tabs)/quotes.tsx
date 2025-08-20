@@ -25,7 +25,18 @@ export default function QuotesScreen() {
   const [vehicleModel, setVehicleModel] = useState("");
 
   // Sample quotes data
-  const quotes = [
+  type Quote = {
+    id: string;
+    type: string;
+    status: string;
+    provider: string;
+    premium: string;
+    coverage: string;
+    expiration: string;
+    icon: MaterialIconsName;
+    color: string;
+  };
+  const quotes: Quote[] = [
     {
       id: "QT-123456",
       type: "Auto Insurance",
@@ -72,7 +83,14 @@ export default function QuotesScreen() {
     },
   ];
 
-  const insuranceTypes = [
+  type MaterialIconsName = keyof typeof MaterialCommunityIcons.glyphMap;
+  type InsuranceType = {
+    id: string;
+    name: string;
+    icon: MaterialIconsName;
+  };
+
+  const insuranceTypes: InsuranceType[] = [
     { id: "auto", name: "Auto Insurance", icon: "car" },
     { id: "home", name: "Home Insurance", icon: "home" },
     { id: "health", name: "Health Insurance", icon: "medical-bag" },
@@ -110,7 +128,7 @@ export default function QuotesScreen() {
     }
   };
 
-  const QuoteCard = ({ quote }) => (
+  const QuoteCard = ({ quote }: { quote: Quote }) => (
     <View style={styles.quoteCard}>
       <View style={styles.quoteHeader}>
         <View style={styles.quoteTitleContainer}>
@@ -183,7 +201,7 @@ export default function QuotesScreen() {
     </View>
   );
 
-  const InsuranceTypeOption = ({ type }) => (
+  const InsuranceTypeOption = ({ type }: { type: InsuranceType }) => (
     <TouchableOpacity
       style={[
         styles.insuranceOption,
@@ -264,13 +282,13 @@ export default function QuotesScreen() {
               <View style={styles.selectorLeft}>
                 <View style={styles.selectorIcon}>
                   <MaterialCommunityIcons
-                    name={selectedInsurance.icon}
+                    name={selectedInsurance?.icon}
                     size={20}
                     color="#4A76FF"
                   />
                 </View>
                 <Text style={styles.selectorText}>
-                  {selectedInsurance.name}
+                  {selectedInsurance?.name}
                 </Text>
               </View>
               <Ionicons name="chevron-down" size={20} color="#64748B" />
