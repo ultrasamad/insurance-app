@@ -28,10 +28,20 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const TOKEN_KEY = "my-fake-token";
+const dummyUser = {
+  firstName: "Samad",
+  surname: "Ibrahim",
+  email: "contact@ultrasamad.com",
+  phone: "+233 234 5678",
+  dob: "1990-01-01",
+  address: "25 MOI WE RD, Dansoman",
+  gender: "Male",
+  avatar: "https://i.pravatar.cc/100",
+};
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(dummyUser);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -40,6 +50,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const token = await AsyncStorage.getItem(TOKEN_KEY);
         setIsAuthenticated(!!token);
+        setUser(user);
       } catch (error) {
         console.error("Error fetching user data:", error);
       } finally {
@@ -54,16 +65,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       await AsyncStorage.setItem(TOKEN_KEY, "my-fake-token");
       setIsAuthenticated(true);
-      setUser({
-        firstName: "Samad",
-        surname: "Naato",
-        email: "samad.naato@email.com",
-        phone: "+1 234 567 890",
-        dob: "1990-01-01",
-        address: "123 Main Street, New York",
-        gender: "Male",
-        avatar: "https://i.pravatar.cc/100",
-      });
+      setUser(user);
     } catch (error) {
       console.error("Error signing in:", error);
     } finally {
