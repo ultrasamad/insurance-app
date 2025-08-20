@@ -25,9 +25,9 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
-        name="cart"
+        name="quotes"
         options={{
-          title: "Buy",
+          title: "Quotes",
           tabBarIcon: ({ color }) => (
             <Ionicons name="cart-outline" size={24} color={color} />
           ),
