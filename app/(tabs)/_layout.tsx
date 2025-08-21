@@ -1,5 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Tabs } from "expo-router";
 import React from "react";
 import {
@@ -9,19 +10,19 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Svg, { Path } from "react-native-svg";
 
 const { width } = Dimensions.get("window");
 const tabCount = 4; // Home, Policies, Quotes, Profile
 const tabWidth = width / tabCount;
 
-const CustomTabBar = ({ state, descriptors, navigation }) => {
+const CustomTabBar = ({
+  state,
+  descriptors,
+  navigation,
+}: BottomTabBarProps) => {
   return (
     <View style={styles.container}>
-      {/* Simple background */}
-      <Svg width={width} height={80} style={styles.svg}>
-        <Path d={`M0 0 H${width} V80 H0 Z`} fill="white" />
-      </Svg>
+      <View style={styles.tabBarBackground} />
 
       <View style={styles.tabBar}>
         {state.routes.map((route, index) => {
@@ -48,13 +49,14 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
             >
               {options.tabBarIcon &&
                 options.tabBarIcon({
-                  color: isFocused ? "#4A47FF" : "#888",
+                  color: isFocused ? "#4A76FF" : "#888",
                   size: 26,
+                  focused: isFocused,
                 })}
               <Text
                 style={[
                   styles.label,
-                  { color: isFocused ? "#4A47FF" : "#888" },
+                  { color: isFocused ? "#4A76FF" : "#888" },
                 ]}
               >
                 {options.title}
@@ -79,7 +81,7 @@ const Layout = () => {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ color, focused }) => (
             <MaterialIcons name="home" size={26} color={color} />
           ),
         }}
@@ -88,7 +90,7 @@ const Layout = () => {
         name="policies"
         options={{
           title: "Policies",
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ color, focused }) => (
             <Ionicons name="shield-checkmark-outline" size={26} color={color} />
           ),
         }}
@@ -97,7 +99,7 @@ const Layout = () => {
         name="quotes"
         options={{
           title: "Quotes",
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ color, focused }) => (
             <Ionicons name="cart-outline" size={26} color={color} />
           ),
         }}
@@ -105,8 +107,8 @@ const Layout = () => {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Account",
-          tabBarIcon: ({ color }) => (
+          title: "Profile",
+          tabBarIcon: ({ color, focused }) => (
             <Ionicons name="person-outline" size={26} color={color} />
           ),
         }}
@@ -124,9 +126,16 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 80,
   },
-  svg: {
-    position: "absolute",
-    top: 0,
+  tabBarBackground: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "white",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 6,
   },
   tabBar: {
     flexDirection: "row",
