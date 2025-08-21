@@ -2,7 +2,7 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import {
-  Dimensions,
+  Alert,
   Image,
   Modal,
   ScrollView,
@@ -14,8 +14,6 @@ import {
   View,
 } from "react-native";
 
-const { width } = Dimensions.get("window");
-
 export default function QuotesScreen() {
   const [activeTab, setActiveTab] = useState("new");
   const [selectedInsuranceType, setSelectedInsuranceType] = useState("auto");
@@ -25,6 +23,7 @@ export default function QuotesScreen() {
   const [vehicleModel, setVehicleModel] = useState("");
 
   // Sample quotes data
+  type MaterialIconsName = keyof typeof MaterialCommunityIcons.glyphMap;
   type Quote = {
     id: string;
     type: string;
@@ -36,6 +35,7 @@ export default function QuotesScreen() {
     icon: MaterialIconsName;
     color: string;
   };
+
   const quotes: Quote[] = [
     {
       id: "QT-123456",
@@ -83,7 +83,6 @@ export default function QuotesScreen() {
     },
   ];
 
-  type MaterialIconsName = keyof typeof MaterialCommunityIcons.glyphMap;
   type InsuranceType = {
     id: string;
     name: string;
@@ -421,6 +420,14 @@ export default function QuotesScreen() {
         )}
       </ScrollView>
 
+      {/* Floating Action Button */}
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={() => Alert.alert("FAB Pressed", "You tapped the FAB button!")}
+      >
+        <Ionicons name="add" size={28} color="#fff" />
+      </TouchableOpacity>
+
       {/* Insurance Type Modal */}
       <Modal
         visible={showInsuranceModal}
@@ -475,7 +482,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     padding: 24,
-    paddingBottom: 40,
+    paddingBottom: 100, // space for FAB
   },
   header: {
     flexDirection: "row",
@@ -797,5 +804,22 @@ const styles = StyleSheet.create({
   insuranceOptionTextSelected: {
     color: "#4A76FF",
     fontWeight: "600",
+  },
+  // FAB styles
+  fab: {
+    position: "absolute",
+    bottom: 100,
+    right: 30,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: "#4A76FF",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
   },
 });
