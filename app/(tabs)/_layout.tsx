@@ -3,17 +3,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Tabs } from "expo-router";
 import React from "react";
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-
-const { width } = Dimensions.get("window");
-const tabCount = 4; // Home, Policies, Quotes, Profile
-const tabWidth = width / tabCount;
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const CustomTabBar = ({
   state,
@@ -21,10 +11,9 @@ const CustomTabBar = ({
   navigation,
 }: BottomTabBarProps) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.tabBar}>
       <View style={styles.tabBarBackground} />
-
-      <View style={styles.tabBar}>
+      <View style={styles.tabItemsContainer}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const isFocused = state.index === index;
@@ -44,7 +33,7 @@ const CustomTabBar = ({
             <TouchableOpacity
               key={route.name}
               onPress={onPress}
-              style={[styles.tabItem, { width: tabWidth }]}
+              style={styles.tabItem}
               activeOpacity={0.7}
             >
               {options.tabBarIcon &&
@@ -74,6 +63,7 @@ const Layout = () => {
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarStyle: styles.tabBar,
       }}
       tabBar={(props) => <CustomTabBar {...props} />}
     >
@@ -120,11 +110,12 @@ const Layout = () => {
 export default Layout;
 
 const styles = StyleSheet.create({
-  container: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
+  tabBar: {
+    backgroundColor: "transparent",
+    borderTopWidth: 0,
+    elevation: 0,
     height: 80,
+    position: "relative",
   },
   tabBarBackground: {
     ...StyleSheet.absoluteFillObject,
@@ -137,15 +128,16 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 6,
   },
-  tabBar: {
+  tabItemsContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
-    height: 80,
+    height: "100%",
   },
   tabItem: {
     alignItems: "center",
     justifyContent: "center",
+    flex: 1,
   },
   label: {
     fontSize: 12,
