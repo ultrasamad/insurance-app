@@ -3,7 +3,7 @@ import BottomSheet, {
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import React, { forwardRef, useCallback, useMemo } from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
 export type Ref = BottomSheet;
 
@@ -30,7 +30,7 @@ const CustomBottomSheet = forwardRef<Ref, Props>((props, ref) => {
 
   // Close bottom sheet
   const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
+    //
   }, []);
 
   // Close bottom sheet
@@ -51,14 +51,14 @@ const CustomBottomSheet = forwardRef<Ref, Props>((props, ref) => {
       backdropComponent={renderBackdrop}
     >
       <BottomSheetView style={styles.contentContainer}>
-        <Text style={styles.sheetTitle}>{props.title} 🎉</Text>
+        <Text style={styles.sheetTitle}>{props.title} </Text>
 
         {props.children}
 
         {/* Close button inside the sheet */}
-        <TouchableOpacity style={styles.closeButton} onPress={handleCloseSheet}>
+        {/* <TouchableOpacity style={styles.closeButton} onPress={handleCloseSheet}>
           <Text style={styles.closeButtonText}>Close Sheet</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </BottomSheetView>
     </BottomSheet>
   );
@@ -81,13 +81,14 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    padding: 24,
+    padding: 16,
     alignItems: "center",
   },
   sheetTitle: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 16,
+    color: "#1E293B",
   },
   closeButton: {
     marginTop: 20,

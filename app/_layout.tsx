@@ -1,6 +1,7 @@
 import { AuthProvider, useAuth } from "@/providers/AuthProvider";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const InitialLayout = () => {
@@ -24,8 +25,15 @@ const InitialLayout = () => {
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <InitialLayout />
-    </AuthProvider>
+    <GestureHandlerRootView
+      style={{
+        flex: 1,
+        backgroundColor: "#f5f5f5",
+      }}
+    >
+      <AuthProvider>
+        <InitialLayout />
+      </AuthProvider>
+    </GestureHandlerRootView>
   );
 }

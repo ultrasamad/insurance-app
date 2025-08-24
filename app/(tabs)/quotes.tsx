@@ -1,4 +1,5 @@
 import CustomBottomSheet from "@/components/CustomBottomSheet";
+import QuoteCalculator from "@/components/QuoteCalculator";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { LinearGradient } from "expo-linear-gradient";
@@ -11,7 +12,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function QuotesScreen() {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -189,8 +189,8 @@ export default function QuotesScreen() {
   );
 
   return (
-    <GestureHandlerRootView style={styles.container}>
-      <View style={styles.mainContent}>
+    <>
+      <View style={styles.container}>
         {/* Background with subtle gradient */}
         <LinearGradient
           colors={["#f8f9ff", "#eef0ff", "#ffffff"]}
@@ -313,55 +313,16 @@ export default function QuotesScreen() {
       </View>
 
       {/* Bottom Sheet */}
-      <CustomBottomSheet title="Policy form here" ref={bottomSheetRef}>
-        <Text>This is the bottom sheet content</Text>
-        <Text>It overlays the main content without disrupting it</Text>
+      <CustomBottomSheet title="Auto Insurance Quote" ref={bottomSheetRef}>
+        <QuoteCalculator />
       </CustomBottomSheet>
-    </GestureHandlerRootView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  // Styles for bottom sheet
-  container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-  },
-  contentContainer: {
-    flex: 1,
-    padding: 24,
-    alignItems: "center",
-  },
-  bottomSheet: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: -3,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 10,
-  },
-  sheetTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 16,
-  },
-  closeButton: {
-    marginTop: 20,
-    padding: 12,
-    backgroundColor: "#FF3B30",
-    borderRadius: 8,
-    minWidth: 120,
-    alignItems: "center",
-  },
-  closeButtonText: {
-    color: "white",
-    fontWeight: "bold",
-  },
-
   // Styles for main content
-  mainContent: {
+  container: {
     flex: 1,
     backgroundColor: "#ffffff",
   },

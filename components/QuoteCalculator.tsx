@@ -4,7 +4,6 @@ import {
   Modal,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
@@ -73,11 +72,37 @@ const QuoteCalculator = () => {
     (type) => type.id === selectedInsuranceType
   );
 
+  const VehicleUsageOptionCard = ({
+    title,
+    description,
+    icon = "car",
+  }: {
+    title: string;
+    description: string;
+    icon?: MaterialIconsName;
+  }) => (
+    <TouchableOpacity style={styles.vehicleUsageCard}>
+      <View style={styles.vehicleUsageCardHeader}>
+        <View style={styles.selectorIcon}>
+          <MaterialCommunityIcons name={icon} size={24} color="#4A76FF" />
+        </View>
+        <Text style={styles.vehicleUsageCardTitle}>{title}</Text>
+        {/* Check mark */}
+        <View style={styles.checkMarkContainer}>
+          <MaterialCommunityIcons name="check" size={20} color="#37bc67ff" />
+        </View>
+      </View>
+
+      <Text style={styles.vehicleUsageCardDescription}>{description}</Text>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.quoteForm}>
-      <Text style={styles.sectionTitle}>Get a New Quote</Text>
-
-      <TouchableOpacity style={styles.insuranceSelector} onPress={() => null}>
+      <TouchableOpacity
+        style={styles.insuranceSelector}
+        onPress={() => setShowInsuranceModal(true)}
+      >
         <View style={styles.selectorContent}>
           <View style={styles.selectorLeft}>
             <View style={styles.selectorIcon}>
@@ -92,44 +117,60 @@ const QuoteCalculator = () => {
           <Ionicons name="chevron-down" size={20} color="#64748B" />
         </View>
       </TouchableOpacity>
-
       {selectedInsuranceType === "auto" && (
         <View style={styles.vehicleForm}>
-          <View style={styles.formRow}>
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Vehicle Year</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="e.g., 2021"
-                value={vehicleYear}
-                onChangeText={setVehicleYear}
-                keyboardType="numeric"
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Vehicle Make</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="e.g., Toyota"
-                value={vehicleMake}
-                onChangeText={setVehicleMake}
-              />
-            </View>
+          {/* Vehicle usage selection cards */}
+          <VehicleUsageOptionCard
+            title="X.1 (Private Individual)"
+            description="For personal vehicles used by you or your family."
+          />
+          <VehicleUsageOptionCard
+            title="X.4 (Private Corporate)"
+            description="For vehicles used for business purposes."
+            icon="car-electric"
+          />
+          <VehicleUsageOptionCard
+            title="Ambulance/Hearse"
+            description="For vehicles used for medical or funeral purposes."
+            icon="ambulance"
+          />
+          <VehicleUsageOptionCard
+            title="Trade Plate - Class 1 GW.1"
+            description="Specialized temporary license plates."
+          />
+          {/* <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Vehicle Year</Text>
+            <BottomSheetTextInput
+              style={styles.input}
+              placeholder="e.g., 2021"
+              value={vehicleYear}
+              onChangeText={setVehicleYear}
+              keyboardType="numeric"
+            />
+          </View> */}
+          {/* <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Vehicle Make</Text>
+            <BottomSheetTextInput
+              style={styles.input}
+              placeholder="e.g., Toyota"
+              value={vehicleMake}
+              onChangeText={setVehicleMake}
+            />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Vehicle Model</Text>
-            <TextInput
+            <BottomSheetTextInput
               style={styles.input}
               placeholder="e.g., Corolla"
               value={vehicleModel}
               onChangeText={setVehicleModel}
             />
-          </View>
+          </View> */}
         </View>
       )}
 
       <TouchableOpacity style={styles.getQuoteButton}>
-        <Text style={styles.getQuoteButtonText}>Get Quote</Text>
+        <Text style={styles.getQuoteButtonText}>Continue</Text>
       </TouchableOpacity>
 
       {/* Insurance Type Modal */}
@@ -167,9 +208,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 12,
     elevation: 4,
+    width: "100%",
   },
   vehicleForm: {
     marginBottom: 16,
+    gap: 12,
   },
   formRow: {
     flexDirection: "row",
@@ -239,6 +282,42 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     color: "#1E293B",
+  },
+  vehicleUsageCard: {
+    flex: 1,
+    justifyContent: "space-between",
+    padding: 12,
+    borderWidth: 1,
+    borderColor: "#E2E8F0",
+    borderRadius: 12,
+    position: "relative",
+  },
+  vehicleUsageCardHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  checkMarkContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 25,
+    height: 25,
+    borderRadius: 18,
+    borderWidth: 2,
+    borderColor: "#37bc67ff",
+    position: "absolute",
+    top: 0,
+    right: 0,
+  },
+  vehicleUsageCardTitle: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#1E293B",
+    marginTop: 8,
+  },
+  vehicleUsageCardDescription: {
+    fontSize: 14,
+    fontWeight: "400",
+    color: "#6B7280",
   },
   // Modal styles
   modalOverlay: {
