@@ -82,11 +82,6 @@ export default function WelcomeScreen() {
             </Link>
           </View>
         </View>
-
-        {/* Footer text */}
-        <Text style={styles.footerText}>
-          © 2025 GlicoInsure • Privacy Policy • Terms of Service
-        </Text>
       </View>
     </View>
   );

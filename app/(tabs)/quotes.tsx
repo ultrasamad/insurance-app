@@ -1,8 +1,9 @@
+import CustomBottomSheet from "@/components/CustomBottomSheet";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import BottomSheet from "@gorhom/bottom-sheet";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import {
-  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -10,8 +11,16 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function QuotesScreen() {
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  // Open bottom sheet
+  const handleOpenSheet = useCallback(() => {
+    bottomSheetRef.current?.expand(); // Opens to the first snap point
+  }, []);
+
   const [activeTab, setActiveTab] = useState("all");
 
   // Sample quotes data
@@ -180,133 +189,179 @@ export default function QuotesScreen() {
   );
 
   return (
-    <View style={styles.container}>
-      {/* Background with subtle gradient */}
-      <LinearGradient
-        colors={["#f8f9ff", "#eef0ff", "#ffffff"]}
-        style={styles.background}
-      />
+    <GestureHandlerRootView style={styles.container}>
+      <View style={styles.mainContent}>
+        {/* Background with subtle gradient */}
+        <LinearGradient
+          colors={["#f8f9ff", "#eef0ff", "#ffffff"]}
+          style={styles.background}
+        />
 
-      {/* Decorative elements */}
-      <View style={styles.circle1} />
-      <View style={styles.circle2} />
+        {/* Decorative elements */}
+        <View style={styles.circle1} />
+        <View style={styles.circle2} />
 
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Header */}
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.title}>Insurance Quotes</Text>
-            <Text style={styles.subtitle}>
-              Compare and purchase the best coverage
-            </Text>
-          </View>
-          <TouchableOpacity style={styles.helpButton}>
-            <Ionicons name="help-circle-outline" size={24} color="#4A76FF" />
-          </TouchableOpacity>
-        </View>
-
-        {/* Quotes Tabs */}
         <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.tabsContainer}
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
         >
-          <TouchableOpacity
-            style={[styles.tab, activeTab === "all" && styles.tabActive]}
-            onPress={() => setActiveTab("all")}
+          {/* Header */}
+          <View style={styles.header}>
+            <View>
+              <Text style={styles.title}>Insurance Quotes</Text>
+              <Text style={styles.subtitle}>
+                Compare and purchase the best coverage
+              </Text>
+            </View>
+            <TouchableOpacity style={styles.helpButton}>
+              <Ionicons name="help-circle-outline" size={24} color="#4A76FF" />
+            </TouchableOpacity>
+          </View>
+
+          {/* Quotes Tabs */}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.tabsContainer}
           >
-            <Text
-              style={[
-                styles.tabText,
-                activeTab === "all" && styles.tabTextActive,
-              ]}
+            <TouchableOpacity
+              style={[styles.tab, activeTab === "all" && styles.tabActive]}
+              onPress={() => setActiveTab("all")}
             >
-              All Quotes
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.tab, activeTab === "received" && styles.tabActive]}
-            onPress={() => setActiveTab("received")}
-          >
-            <Text
-              style={[
-                styles.tabText,
-                activeTab === "received" && styles.tabTextActive,
-              ]}
+              <Text
+                style={[
+                  styles.tabText,
+                  activeTab === "all" && styles.tabTextActive,
+                ]}
+              >
+                All Quotes
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.tab, activeTab === "received" && styles.tabActive]}
+              onPress={() => setActiveTab("received")}
             >
-              Received
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.tab, activeTab === "pending" && styles.tabActive]}
-            onPress={() => setActiveTab("pending")}
-          >
-            <Text
-              style={[
-                styles.tabText,
-                activeTab === "pending" && styles.tabTextActive,
-              ]}
+              <Text
+                style={[
+                  styles.tabText,
+                  activeTab === "received" && styles.tabTextActive,
+                ]}
+              >
+                Received
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.tab, activeTab === "pending" && styles.tabActive]}
+              onPress={() => setActiveTab("pending")}
             >
-              Processing
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.tab, activeTab === "expired" && styles.tabActive]}
-            onPress={() => setActiveTab("expired")}
-          >
-            <Text
-              style={[
-                styles.tabText,
-                activeTab === "expired" && styles.tabTextActive,
-              ]}
+              <Text
+                style={[
+                  styles.tabText,
+                  activeTab === "pending" && styles.tabTextActive,
+                ]}
+              >
+                Processing
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.tab, activeTab === "expired" && styles.tabActive]}
+              onPress={() => setActiveTab("expired")}
             >
-              Expired
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={[
+                  styles.tabText,
+                  activeTab === "expired" && styles.tabTextActive,
+                ]}
+              >
+                Expired
+              </Text>
+            </TouchableOpacity>
+          </ScrollView>
+
+          {/* Quotes List */}
+          <View style={styles.quotesList}>
+            {filteredQuotes.map((quote) => (
+              <QuoteCard key={quote.id} quote={quote} />
+            ))}
+          </View>
+
+          {/* Empty State */}
+          {filteredQuotes.length === 0 && (
+            <View style={styles.emptyState}>
+              <Image
+                source={{ uri: "https://i.ibb.co.com/6FgX2zT/quote.png" }}
+                style={styles.emptyImage}
+              />
+              <Text style={styles.emptyTitle}>
+                {activeTab === "all"
+                  ? "No quotes yet"
+                  : `No ${activeTab} quotes`}
+              </Text>
+              <Text style={styles.emptyText}>
+                {activeTab === "all"
+                  ? "Get started by requesting your first insurance quote."
+                  : `You don't have any ${activeTab} quotes at this time.`}
+              </Text>
+            </View>
+          )}
         </ScrollView>
 
-        {/* Quotes List */}
-        <View style={styles.quotesList}>
-          {filteredQuotes.map((quote) => (
-            <QuoteCard key={quote.id} quote={quote} />
-          ))}
-        </View>
+        {/* Floating Action Button */}
+        <TouchableOpacity style={styles.fab} onPress={handleOpenSheet}>
+          <Ionicons name="add" size={28} color="#fff" />
+        </TouchableOpacity>
+      </View>
 
-        {/* Empty State */}
-        {filteredQuotes.length === 0 && (
-          <View style={styles.emptyState}>
-            <Image
-              source={{ uri: "https://i.ibb.co.com/6FgX2zT/quote.png" }}
-              style={styles.emptyImage}
-            />
-            <Text style={styles.emptyTitle}>
-              {activeTab === "all" ? "No quotes yet" : `No ${activeTab} quotes`}
-            </Text>
-            <Text style={styles.emptyText}>
-              {activeTab === "all"
-                ? "Get started by requesting your first insurance quote."
-                : `You don't have any ${activeTab} quotes at this time.`}
-            </Text>
-          </View>
-        )}
-      </ScrollView>
-
-      {/* Floating Action Button */}
-      <TouchableOpacity
-        style={styles.fab}
-        onPress={() => Alert.alert("FAB Pressed", "You tapped the FAB button!")}
-      >
-        <Ionicons name="add" size={28} color="#fff" />
-      </TouchableOpacity>
-    </View>
+      {/* Bottom Sheet */}
+      <CustomBottomSheet title="Policy form here" ref={bottomSheetRef}>
+        <Text>This is the bottom sheet content</Text>
+        <Text>It overlays the main content without disrupting it</Text>
+      </CustomBottomSheet>
+    </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
+  // Styles for bottom sheet
   container: {
+    flex: 1,
+    backgroundColor: "#f5f5f5",
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 24,
+    alignItems: "center",
+  },
+  bottomSheet: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: -3,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 10,
+  },
+  sheetTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  closeButton: {
+    marginTop: 20,
+    padding: 12,
+    backgroundColor: "#FF3B30",
+    borderRadius: 8,
+    minWidth: 120,
+    alignItems: "center",
+  },
+  closeButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+
+  // Styles for main content
+  mainContent: {
     flex: 1,
     backgroundColor: "#ffffff",
   },
@@ -523,7 +578,7 @@ const styles = StyleSheet.create({
   // FAB styles
   fab: {
     position: "absolute",
-    bottom: 100,
+    bottom: 30,
     right: 30,
     width: 60,
     height: 60,
