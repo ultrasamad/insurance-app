@@ -10,8 +10,9 @@ import {
 } from "react-native";
 
 const QuoteCalculator = () => {
-  const [selectedInsuranceType, setSelectedInsuranceType] = useState(1);
   const [showInsuranceModal, setShowInsuranceModal] = useState(false);
+  const [selectedInsuranceType, setSelectedInsuranceType] = useState(1);
+  const [vehicleUsageType, setVehicleUsageType] = useState(1);
 
   const [vehicleYear, setVehicleYear] = useState("");
   const [vehicleMake, setVehicleMake] = useState("");
@@ -26,7 +27,7 @@ const QuoteCalculator = () => {
   };
 
   const insuranceTypes: InsuranceType[] = [
-    { id: 1, name: "Auto Insurance", icon: "car" },
+    { id: 1, name: "Motor Insurance", icon: "car" },
     { id: 2, name: "Fire", icon: "fire" },
     { id: 3, name: "Personal Accident", icon: "medical-bag" },
   ];
@@ -76,6 +77,7 @@ const QuoteCalculator = () => {
     name: string;
     description: string;
     icon: MaterialIconsName;
+    isSelected?: boolean;
   };
 
   const vehicleUsageTypes: VehicleUsageType[] = [
@@ -130,24 +132,35 @@ const QuoteCalculator = () => {
   ];
 
   const VehicleUsageOptionCard = ({
-    title,
+    name,
     description,
-    icon = "car",
-  }: {
-    title: string;
-    description: string;
-    icon?: MaterialIconsName;
-  }) => (
-    <TouchableOpacity style={styles.vehicleUsageCard}>
+    icon,
+    isSelected,
+  }: VehicleUsageType) => (
+    <TouchableOpacity
+      style={[
+        styles.vehicleUsageCard,
+        isSelected && { borderColor: "#37bc67ff" },
+      ]}
+    >
       <View style={styles.vehicleUsageCardHeader}>
         <View style={styles.selectorIcon}>
           <MaterialCommunityIcons name={icon} size={24} color="#4A76FF" />
         </View>
-        <Text style={styles.vehicleUsageCardTitle}>{title}</Text>
-        {/* Check mark */}
-        <View style={styles.checkMarkContainer}>
-          <MaterialCommunityIcons name="check" size={20} color="#37bc67ff" />
-        </View>
+        <Text style={styles.vehicleUsageCardTitle}>{name}</Text>
+        {isSelected && (
+          <View
+            style={[styles.checkMarkContainer, { borderColor: "#37bc67ff" }]}
+          >
+            <MaterialCommunityIcons name="check" size={20} color="#37bc67ff" />
+          </View>
+        )}
+
+        {!isSelected && (
+          <View
+            style={[styles.checkMarkContainer, { borderColor: "#E2E8F0" }]}
+          ></View>
+        )}
       </View>
 
       <Text style={styles.vehicleUsageCardDescription}>{description}</Text>
@@ -178,8 +191,18 @@ const QuoteCalculator = () => {
         <View style={styles.vehicleForm}>
           {/* Vehicle usage selection cards */}
           <VehicleUsageOptionCard
-            title="X.1 (Private Individual)"
+            id={1}
+            name="X.1 (Private Individual)"
             description="For personal vehicles used by you or your family."
+            icon="car"
+            isSelected={true}
+          />
+          <VehicleUsageOptionCard
+            id={2}
+            name="X.2 (Private Corporate)"
+            description="For vehicles used for business purposes."
+            icon="car"
+            isSelected={false}
           />
           {/* <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Vehicle Year</Text>
@@ -341,7 +364,7 @@ const styles = StyleSheet.create({
     height: 25,
     borderRadius: 18,
     borderWidth: 2,
-    borderColor: "#37bc67ff",
+    borderColor: "#E2E8F0",
     position: "absolute",
     top: 0,
     right: 0,
