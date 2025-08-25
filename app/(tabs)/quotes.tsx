@@ -1,7 +1,8 @@
 import CustomBottomSheet from "@/components/CustomBottomSheet";
+import CustomBottomSheetModal from "@/components/CustomBottomSheetModal";
 import QuoteCalculator from "@/components/QuoteCalculator";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import BottomSheet from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { LinearGradient } from "expo-linear-gradient";
 import { useCallback, useRef, useState } from "react";
 import {
@@ -15,10 +16,15 @@ import {
 
 export default function QuotesScreen() {
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   // Open bottom sheet
   const handleOpenSheet = useCallback(() => {
     bottomSheetRef.current?.expand(); // Opens to the first snap point
+  }, []);
+
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
   }, []);
 
   const [activeTab, setActiveTab] = useState("all");
@@ -307,7 +313,7 @@ export default function QuotesScreen() {
         </ScrollView>
 
         {/* Floating Action Button */}
-        <TouchableOpacity style={styles.fab} onPress={handleOpenSheet}>
+        <TouchableOpacity style={styles.fab} onPress={handlePresentModalPress}>
           <Ionicons name="add" size={28} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -316,6 +322,13 @@ export default function QuotesScreen() {
       <CustomBottomSheet title="Auto Insurance Quote" ref={bottomSheetRef}>
         <QuoteCalculator />
       </CustomBottomSheet>
+
+      <CustomBottomSheetModal
+        ref={bottomSheetModalRef}
+        title="Auto Insurance Quote"
+      >
+        <QuoteCalculator />
+      </CustomBottomSheetModal>
     </>
   );
 }

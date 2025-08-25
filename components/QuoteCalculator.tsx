@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 const QuoteCalculator = () => {
-  const [selectedInsuranceType, setSelectedInsuranceType] = useState("auto");
+  const [selectedInsuranceType, setSelectedInsuranceType] = useState(1);
   const [showInsuranceModal, setShowInsuranceModal] = useState(false);
 
   const [vehicleYear, setVehicleYear] = useState("");
@@ -20,16 +20,15 @@ const QuoteCalculator = () => {
   type MaterialIconsName = keyof typeof MaterialCommunityIcons.glyphMap;
 
   type InsuranceType = {
-    id: string;
+    id: number;
     name: string;
     icon: MaterialIconsName;
   };
 
   const insuranceTypes: InsuranceType[] = [
-    { id: "auto", name: "Auto Insurance", icon: "car" },
-    { id: "home", name: "Home Insurance", icon: "home" },
-    { id: "health", name: "Health Insurance", icon: "medical-bag" },
-    { id: "life", name: "Life Insurance", icon: "heart" },
+    { id: 1, name: "Auto Insurance", icon: "car" },
+    { id: 2, name: "Fire", icon: "fire" },
+    { id: 3, name: "Personal Accident", icon: "medical-bag" },
   ];
 
   const InsuranceTypeOption = ({ type }: { type: InsuranceType }) => (
@@ -71,6 +70,64 @@ const QuoteCalculator = () => {
   const selectedInsurance = insuranceTypes.find(
     (type) => type.id === selectedInsuranceType
   );
+
+  type VehicleUsageType = {
+    id: number;
+    name: string;
+    description: string;
+    icon: MaterialIconsName;
+  };
+
+  const vehicleUsageTypes: VehicleUsageType[] = [
+    {
+      id: 1,
+      name: "Private Individual",
+      description: "For personal vehicles used by you or your family.",
+      icon: "car",
+    },
+    {
+      id: 2,
+      name: "Private Corporate",
+      description: "For vehicles used for business purposes.",
+      icon: "briefcase",
+    },
+    {
+      id: 3,
+      name: "Taxi",
+      description: "For vehicles used as taxis.",
+      icon: "taxi",
+    },
+    {
+      id: 4,
+      name: "Hiring cars",
+      description: "For vehicles rented out to customers.",
+      icon: "truck-fast",
+    },
+    {
+      id: 5,
+      name: "Mini Bus",
+      description: "For vehicles designed to carry multiple passengers.",
+      icon: "bus",
+    },
+    {
+      id: 6,
+      name: "Maxi Bus",
+      description: "For larger vehicles designed to carry more passengers.",
+      icon: "bus",
+    },
+    {
+      id: 7,
+      name: "Motor Cycle",
+      description: "For two-wheeled vehicles.",
+      icon: "motorbike",
+    },
+    {
+      id: 8,
+      name: "Ambulance",
+      description: "For vehicles used for medical purposes.",
+      icon: "ambulance",
+    },
+  ];
 
   const VehicleUsageOptionCard = ({
     title,
@@ -117,26 +174,12 @@ const QuoteCalculator = () => {
           <Ionicons name="chevron-down" size={20} color="#64748B" />
         </View>
       </TouchableOpacity>
-      {selectedInsuranceType === "auto" && (
+      {selectedInsuranceType === 1 && (
         <View style={styles.vehicleForm}>
           {/* Vehicle usage selection cards */}
           <VehicleUsageOptionCard
             title="X.1 (Private Individual)"
             description="For personal vehicles used by you or your family."
-          />
-          <VehicleUsageOptionCard
-            title="X.4 (Private Corporate)"
-            description="For vehicles used for business purposes."
-            icon="car-electric"
-          />
-          <VehicleUsageOptionCard
-            title="Ambulance/Hearse"
-            description="For vehicles used for medical or funeral purposes."
-            icon="ambulance"
-          />
-          <VehicleUsageOptionCard
-            title="Trade Plate - Class 1 GW.1"
-            description="Specialized temporary license plates."
           />
           {/* <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Vehicle Year</Text>
@@ -203,11 +246,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 20,
     marginBottom: 24,
-    shadowColor: "#4A76FF",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 4,
     width: "100%",
   },
   vehicleForm: {
