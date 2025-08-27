@@ -4,6 +4,7 @@ import QuoteCalculator from "@/components/QuoteCalculator";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import BottomSheet, { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { LinearGradient } from "expo-linear-gradient";
+import { Link } from "expo-router";
 import { useCallback, useRef, useState } from "react";
 import {
   Image,
@@ -46,10 +47,10 @@ export default function QuotesScreen() {
   const quotes: Quote[] = [
     {
       id: "QT-123456",
-      type: "Auto Insurance",
+      type: "Motor Insurance",
       status: "received",
-      provider: "SafeDrive Insurance",
-      premium: "$145.50",
+      provider: "Glico",
+      premium: "GHS145.50",
       coverage: "Comprehensive",
       expiration: "Dec 31, 2023",
       icon: "car",
@@ -57,32 +58,32 @@ export default function QuotesScreen() {
     },
     {
       id: "QT-789012",
-      type: "Auto Insurance",
+      type: "Motor Insurance",
       status: "received",
-      provider: "QuickCover Inc.",
-      premium: "$128.75",
-      coverage: "Full Coverage",
+      provider: "Glico",
+      premium: "GHS128.75",
+      coverage: "Comprehensive",
       expiration: "Dec 28, 2023",
       icon: "car",
       color: "#10B981",
     },
     {
       id: "QT-345678",
-      type: "Home Insurance",
+      type: "Fire",
       status: "pending",
-      provider: "HomeSecure",
-      premium: "$89.25",
-      coverage: "Basic Coverage",
+      provider: "Glico",
+      premium: "GHS89.25",
+      coverage: "N/A",
       expiration: "Pending",
       icon: "home",
       color: "#F59E0B",
     },
     {
       id: "QT-901234",
-      type: "Health Insurance",
+      type: "Personal Accident",
       status: "expired",
-      provider: "HealthGuard",
-      premium: "$210.00",
+      provider: "Glico",
+      premium: "GHS210.00",
       coverage: "Family Plan",
       expiration: "Nov 15, 2023",
       icon: "medical-bag",
@@ -158,7 +159,7 @@ export default function QuotesScreen() {
             <Text style={styles.detailValue}>{quote.provider}</Text>
           </View>
           <View style={styles.detailItem}>
-            <Text style={styles.detailLabel}>Monthly Premium</Text>
+            <Text style={styles.detailLabel}>Yearly Premium</Text>
             <Text style={styles.detailValue}>{quote.premium}</Text>
           </View>
         </View>
@@ -313,9 +314,11 @@ export default function QuotesScreen() {
         </ScrollView>
 
         {/* Floating Action Button */}
-        <TouchableOpacity style={styles.fab} onPress={handlePresentModalPress}>
-          <Ionicons name="add" size={28} color="#fff" />
-        </TouchableOpacity>
+        <Link href="/modal" style={styles.fab} push asChild>
+          <TouchableOpacity style={styles.fab}>
+            <Ionicons name="add" size={28} color="#fff" />
+          </TouchableOpacity>
+        </Link>
       </View>
 
       {/* Bottom Sheet */}

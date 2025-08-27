@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     loadAuthState();
   }, []);
 
-  const signIn = async (username: string, password: string) => {
+  const signIn = async (email: string, password: string) => {
     setLoading(true);
     try {
       await AsyncStorage.setItem(TOKEN_KEY, "my-fake-token");

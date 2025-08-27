@@ -171,7 +171,7 @@ export default function HomeScreen() {
         </View>
 
         {/* Policy Selection */}
-        <View style={styles.section}>
+        {/* <View style={styles.section}>
           <Text style={styles.sectionTitle}>My Policies</Text>
           <ScrollView
             horizontal
@@ -204,7 +204,7 @@ export default function HomeScreen() {
               </TouchableOpacity>
             ))}
           </ScrollView>
-        </View>
+        </View> */}
 
         {/* Quick Actions */}
         <View style={styles.section}>

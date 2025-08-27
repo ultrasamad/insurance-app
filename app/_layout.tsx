@@ -12,6 +12,7 @@ const InitialLayout = () => {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Protected guard={isAuthenticated}>
           <Stack.Screen name="(tabs)" options={{ title: "Authenticated" }} />
+          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
         </Stack.Protected>
         <Stack.Protected guard={!isAuthenticated}>
           <Stack.Screen name="index" options={{ title: "Welcome" }} />

@@ -37,33 +37,33 @@ export default function PoliciesScreen() {
   const policies: Policy[] = [
     {
       id: "POL-123456",
-      type: "Comprehensive Auto",
+      type: "Motor Insurance",
       status: "active",
-      premium: "$145.50",
+      premium: "GHS530.50",
       renewalDate: "Dec 31, 2023",
       vehicle: "Toyota Corolla 2021",
       plate: "ABC-1234",
-      coverage: "Full Coverage",
+      coverage: "Comprehensive",
       icon: "car",
       color: "#4A76FF",
     },
     {
       id: "POL-789012",
-      type: "Third Party Liability",
+      type: "Motor Insurance",
       status: "active",
-      premium: "$89.75",
+      premium: "GHS89.75",
       renewalDate: "Aug 01, 2024",
       vehicle: "Honda Civic 2020",
       plate: "XYZ-5678",
-      coverage: "Liability Only",
+      coverage: "Third Party",
       icon: "car",
       color: "#10B981",
     },
     {
       id: "POL-345678",
-      type: "Health Insurance",
+      type: "Personal Accident",
       status: "active",
-      premium: "$210.00",
+      premium: "GHS210.00",
       renewalDate: "Mar 15, 2024",
       vehicle: "N/A",
       plate: "N/A",
@@ -73,9 +73,9 @@ export default function PoliciesScreen() {
     },
     {
       id: "POL-901234",
-      type: "Homeowners",
+      type: "Fire",
       status: "expired",
-      premium: "$85.25",
+      premium: "GHS85.25",
       renewalDate: "Jan 05, 2023",
       vehicle: "N/A",
       plate: "N/A",
@@ -83,18 +83,18 @@ export default function PoliciesScreen() {
       icon: "home",
       color: "#F59E0B",
     },
-    {
-      id: "POL-567890",
-      type: "Life Insurance",
-      status: "pending",
-      premium: "$55.30",
-      renewalDate: "Nov 20, 2023",
-      vehicle: "N/A",
-      plate: "N/A",
-      coverage: "Term Life",
-      icon: "heart",
-      color: "#8B5CF6",
-    },
+    // {
+    //   id: "POL-567890",
+    //   type: "Life Insurance",
+    //   status: "pending",
+    //   premium: "$55.30",
+    //   renewalDate: "Nov 20, 2023",
+    //   vehicle: "N/A",
+    //   plate: "N/A",
+    //   coverage: "Term Life",
+    //   icon: "heart",
+    //   color: "#8B5CF6",
+    // },
   ];
 
   const onRefresh = () => {
@@ -173,7 +173,7 @@ export default function PoliciesScreen() {
         <View style={styles.detailRow}>
           <View style={styles.detailItem}>
             <Text style={styles.detailLabel}>Premium</Text>
-            <Text style={styles.detailValue}>{policy.premium}/month</Text>
+            <Text style={styles.detailValue}>{policy.premium}/year</Text>
           </View>
           <View style={styles.detailItem}>
             <Text style={styles.detailLabel}>Renewal Date</Text>

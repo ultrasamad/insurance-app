@@ -31,10 +31,7 @@ export default function WelcomeScreen() {
           </View>
 
           {/* Title + Subtitle */}
-          <Text style={styles.heading}>Welcome Back</Text>
-          <View style={styles.waveContainer}>
-            <Ionicons name="hand-left" size={24} color="#4A76FF" />
-          </View>
+          <Text style={styles.heading}>Welcome Back 👋</Text>
           <Text style={styles.subHeading}>
             Protecting what matters most to you
           </Text>
@@ -159,9 +156,6 @@ const styles = StyleSheet.create({
     color: "#1a1a1a",
     textAlign: "center",
     marginBottom: 8,
-  },
-  waveContainer: {
-    marginBottom: 12,
   },
   subHeading: {
     fontSize: 16,

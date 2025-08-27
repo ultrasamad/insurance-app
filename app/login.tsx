@@ -72,7 +72,7 @@ export default function LoginScreen() {
               </View>
             </View>
 
-            <Text style={styles.title}>Welcome Back</Text>
+            <Text style={styles.title}>Welcome Back 👋</Text>
             <Text style={styles.subtitle}>Sign in to access your account</Text>
 
             {/* Form */}

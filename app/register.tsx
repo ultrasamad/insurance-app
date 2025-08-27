@@ -1,3 +1,4 @@
+import { useAuth } from "@/providers/AuthProvider";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { LinearGradient } from "expo-linear-gradient";
@@ -48,6 +49,7 @@ export default function SignUpScreen() {
     address: false,
   });
   const router = useRouter();
+  const { signIn } = useAuth();
 
   const handleRegister = () => {
     if (
@@ -62,7 +64,9 @@ export default function SignUpScreen() {
       alert("Please fill in all fields");
       return;
     }
-    alert("Registration successful ✅");
+    // alert("Registration successful ✅");
+    signIn(email, "123"); // TODO: Temporary
+    router.navigate("/(tabs)");
   };
 
   const handleFocus = (field: string) => {
@@ -90,7 +94,7 @@ export default function SignUpScreen() {
   const genderOptions: GenderOption[] = [
     { label: "Male", value: "male", icon: "male" },
     { label: "Female", value: "female", icon: "female" },
-    { label: "Other", value: "other", icon: "person" },
+    // { label: "Other", value: "other", icon: "person" },
   ];
 
   const formatDate = (date: Date) => {
@@ -147,10 +151,10 @@ export default function SignUpScreen() {
               </View>
             </View>
 
-            <Text style={styles.title}>Create Account</Text>
+            {/* <Text style={styles.title}>Create Account</Text>
             <Text style={styles.subtitle}>
               Join us to protect what matters most
-            </Text>
+            </Text> */}
 
             {/* Form */}
             <View style={styles.formContainer}>
@@ -276,7 +280,7 @@ export default function SignUpScreen() {
                   onPress={handleNextStep}
                   style={styles.primaryButton}
                 >
-                  <Text style={styles.primaryButtonText}>Continue</Text>
+                  <Text style={styles.primaryButtonText}>Next</Text>
                   <Ionicons name="arrow-forward" size={20} color="#FFFFFF" />
                 </TouchableOpacity>
               </View>
@@ -615,6 +619,41 @@ const styles = StyleSheet.create({
     elevation: 4,
     marginBottom: 24,
     gap: 8,
+  },
+  navigation: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: "#e9ecef",
+    backgroundColor: "white",
+  },
+  navButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  prevButton: {
+    borderWidth: 1,
+    borderColor: "#2E86DE",
+  },
+  prevButtonText: {
+    color: "#2E86DE",
+    fontWeight: "500",
+    marginLeft: 8,
+  },
+  nextButton: {
+    backgroundColor: "#2E86DE",
+  },
+  nextButtonText: {
+    color: "white",
+    fontWeight: "500",
+    marginRight: 8,
+  },
+  navButtonDisabled: {
+    opacity: 0.5,
   },
   primaryButtonText: {
     fontSize: 16,
